@@ -1,12 +1,25 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
+import axios from "axios";
+import Cookies from "universal-cookie";
 function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   function onSubmit(e) {
     e.preventDefault();
-    if (username !== "" || password !== "") {
+    if (email !== "" || password !== "") {
+      var formData = { email: email, password: password };
+      console.log(formData);
+      axios
+        .post("http://localhost:3001/users/login", formData)
+        .then((res) => {
+          const cookies = new Cookies();
+          cookies.set("userId", res._id);
+          cookies.set("email", res.email);
+          window.location = "/";
+        })
+        .catch((res) => setError(res.message));
     } else {
       setError("You have not entered all the data!");
     }
@@ -18,14 +31,13 @@ function Login() {
         <div className="row py-5 mt-5 align-items-center">
           <div className="col-md-5 pr-lg-5 mb-5 mb-md-0">
             <img
-              src="logo.png"
-              alt=""
+              src="http://localhost:3001/images/logo.png"
+              alt="logo"
               className="img-fluid mb-3 d-none d-md-block"
             />
-            <h1>Create an Account</h1>
+            <h1>Log into your account</h1>
             <p className="font-italic text-muted mb-0">
-              Create an account to start monitoring your workouts with the
-              Ventura app.
+              Log into your account to see the statistics of your workouts.
             </p>
           </div>
 
@@ -35,16 +47,16 @@ function Login() {
                 <div className="input-group col-lg-12 mb-4">
                   <div className="input-group-prepend">
                     <span className="input-group-text bg-white px-4 border-md border-right-0 p-3">
-                      <i className="fa fa-address-card text-muted"></i>
+                      <i className="fa fa-envelope text-muted"></i>
                     </span>
                   </div>
                   <input
-                    id="username"
-                    type="username"
-                    name="username"
-                    placeholder="Username"
+                    id="email"
+                    type="email"
+                    name="email"
+                    placeholder="Email Address"
                     className="form-control bg-white border-left-0 border-md"
-                    onChange={(e) => setUsername(e)}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
 
@@ -60,7 +72,7 @@ function Login() {
                     name="password"
                     placeholder="Password"
                     className="form-control bg-white border-left-0 border-md"
-                    onChange={(e) => setPassword(e)}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
 

@@ -1,8 +1,8 @@
+import axios from "axios";
 import React, { useState } from "react";
 import Header from "../components/Header";
 
 function Register() {
-  const [username, setUsername] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -12,23 +12,38 @@ function Register() {
   function onSubmit(e) {
     e.preventDefault();
     if (
-      username !== "" ||
-      firstname !== "" ||
-      lastname !== "" ||
-      password !== "" ||
-      email !== "" ||
+      firstname !== "" &&
+      lastname !== "" &&
+      password !== "" &&
+      email !== "" &&
       passwordConfirmation !== ""
     ) {
       if (password === passwordConfirmation) {
-        var formData = {
-          username,
-          first_name: firstname,
-          last_name: lastname,
-          password,
-          email,
-        };
+        if (password.length > 7) {
+          var formData = {
+            first_name: firstname,
+            last_name: lastname,
+            password: password,
+            email: email,
+          };
+          console.log(formData);
+          axios
+            .post("http://localhost:3001/users/register", formData)
+            .then((response) => {
+              console.log(response);
+              alert("Succesfully registered!");
+              window.location = "/login";
+            })
+            .catch((res) => {
+              console.log(res);
+              setError(res.message);
+            });
+        } else {
+          console.log(password.length);
+          setError("Password length must be atleast 8 characters!");
+        }
       } else {
-        setError("The passwords do not match!");
+        setError("Passwords do not match!");
       }
     } else {
       setError("You have not entered all the data!");
@@ -41,8 +56,8 @@ function Register() {
         <div className="row py-5 mt-4 align-items-center">
           <div className="col-md-5 pr-lg-5 mb-5 mb-md-0">
             <img
-              src="logo.png"
-              alt=""
+              src="http://localhost:3001/images/logo.png"
+              alt="logo"
               className="img-fluid mb-3 d-none d-md-block"
             />
             <h1>Create an Account</h1>
@@ -55,21 +70,6 @@ function Register() {
           <div className="col-md-7 col-lg-6 ml-auto">
             <form onSubmit={onSubmit}>
               <div className="row">
-                <div className="input-group col-lg-12 mb-4">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text bg-white px-4 border-md border-right-0 p-3">
-                      <i className="fa fa-address-card text-muted"></i>
-                    </span>
-                  </div>
-                  <input
-                    id="username"
-                    type="username"
-                    name="username"
-                    placeholder="Username"
-                    className="form-control bg-white border-left-0 border-md"
-                    onChange={(e) => setUsername(e)}
-                  />
-                </div>
                 <div className="input-group col-lg-6 mb-4">
                   <div className="input-group-prepend">
                     <span className="input-group-text bg-white px-4 border-md border-right-0 p-3">
@@ -82,7 +82,7 @@ function Register() {
                     name="firstname"
                     placeholder="First Name"
                     className="form-control bg-white border-left-0 border-md"
-                    onChange={(e) => setFirstname(e)}
+                    onChange={(e) => setFirstname(e.currentTarget.value)}
                   />
                 </div>
 
@@ -98,7 +98,7 @@ function Register() {
                     name="lastname"
                     placeholder="Last Name"
                     className="form-control bg-white border-left-0 border-md"
-                    onChange={(e) => setLastname(e)}
+                    onChange={(e) => setLastname(e.currentTarget.value)}
                   />
                 </div>
 
@@ -114,7 +114,7 @@ function Register() {
                     name="email"
                     placeholder="Email Address"
                     className="form-control bg-white border-left-0 border-md"
-                    onChange={(e) => setEmail(e)}
+                    onChange={(e) => setEmail(e.currentTarget.value)}
                   />
                 </div>
 
@@ -130,7 +130,7 @@ function Register() {
                     name="password"
                     placeholder="Password"
                     className="form-control bg-white border-left-0 border-md"
-                    onChange={(e) => setPassword(e)}
+                    onChange={(e) => setPassword(e.currentTarget.value)}
                   />
                 </div>
 
@@ -146,7 +146,9 @@ function Register() {
                     name="passwordConfirmation"
                     placeholder="Confirm Password"
                     className="form-control bg-white border-left-0 border-md"
-                    onChange={(e) => setPasswordConfirmation(e)}
+                    onChange={(e) =>
+                      setPasswordConfirmation(e.currentTarget.value)
+                    }
                   />
                 </div>
 

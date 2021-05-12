@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import Cookies from "universal-cookie";
 function Header(props) {
+  const [isLogined, setIsLogined] = useState(false);
+  useEffect(() => {
+    var cookies = new Cookies();
+    const id = cookies.get("userId");
+    if (id) {
+      setIsLogined(true);
+    }
+  }, []);
+
   return (
     <div>
       <Navbar
@@ -16,14 +26,25 @@ function Header(props) {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse className="justify-content-end" id="basic-navbar-nav">
-          <Nav className="mr-auto" inline>
-            <Nav.Link href="/login" style={{ fontSize: "24px" }}>
-              Login
-            </Nav.Link>
-            <Nav.Link href="/register" style={{ fontSize: "24px" }}>
-              Register
-            </Nav.Link>
-          </Nav>
+          {!isLogined ? (
+            <Nav className="mr-auto">
+              <Nav.Link href="/login" style={{ fontSize: "24px" }}>
+                Login
+              </Nav.Link>
+              <Nav.Link href="/register" style={{ fontSize: "24px" }}>
+                Register
+              </Nav.Link>
+            </Nav>
+          ) : (
+            <Nav className="mr-auto">
+              <Nav.Link href="/profile" style={{ fontSize: "24px" }}>
+                Profile
+              </Nav.Link>
+              <Nav.Link href="/logout" style={{ fontSize: "24px" }}>
+                Log out
+              </Nav.Link>
+            </Nav>
+          )}
         </Navbar.Collapse>
       </Navbar>
     </div>

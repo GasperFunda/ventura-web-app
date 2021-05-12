@@ -1,16 +1,27 @@
 import "./App.css";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
-import Home from "./pages/Home";
+import HomeNotLogined from "./pages/HomeNotLogined";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Logout from "./pages/Logout";
-
+import Profile from "./pages/Profile";
+import Cookies from "universal-cookie";
+import Home from "./pages/Home";
 function App() {
+  const [isLogined, setIsLogined] = useState(false);
+  useEffect(() => {
+    var cookies = new Cookies();
+    var id = cookies.get("userId");
+    if (id) {
+      setIsLogined(true);
+    }
+  }, []);
   return (
     <BrowserRouter>
       <div>
         <Route path="/" exact>
-          <Home />
+          {!isLogined ? <HomeNotLogined /> : <Home />}
         </Route>
         <Route path="/login" exact>
           <Login />
@@ -20,6 +31,9 @@ function App() {
         </Route>
         <Route path="/logout" exact>
           <Logout />
+        </Route>
+        <Route path="/profile" exact>
+          <Profile />
         </Route>
       </div>
     </BrowserRouter>
