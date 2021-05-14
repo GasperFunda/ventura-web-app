@@ -5,16 +5,16 @@ import ActivityPreview from "../components/ActivityPreview";
 import Header from "../components/Header";
 
 function YourActivities() {
-  var cookies = new Cookies();
+  const cookies = new Cookies();
   const [activities, setActivities] = useState([]);
   const [numActivites, setNumActivities] = useState(0);
   useEffect(() => {
-    var id = cookies.get("userId");
+    const id = cookies.get("userId");
     axios
-      .get("http://localhost:3000/activities/user" + id)
+      .get("http://localhost:3001/activities/user/" + id)
       .then((response) => {
-        setActivities(response);
-        setNumActivities(activities.length);
+        console.log(response.data);
+        setActivities(response.data);
       })
       .catch((response) => console.log(response));
   }, []);

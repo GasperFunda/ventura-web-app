@@ -12,11 +12,16 @@ function Login() {
       var formData = { email: email, password: password };
       console.log(formData);
       axios
-        .post("http://localhost:3001/users/login", formData)
+        .post("http://localhost:3001/users/login", formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
         .then((res) => {
           const cookies = new Cookies();
-          cookies.set("userId", res._id);
-          cookies.set("email", res.email);
+          cookies.set("userId", res.data._id);
+          cookies.set("email", res.data.email);
+          console.log(cookies.get("userId"));
           window.location = "/";
         })
         .catch((res) => setError(res.message));
