@@ -24,6 +24,14 @@ function Header(props) {
         >
           Ventura
         </Navbar.Brand>
+        {isLogined && (
+          <Navbar.Brand
+            href="/yourActivities"
+            style={{ marginLeft: "35px", fontSize: "26px" }}
+          >
+            Your activities
+          </Navbar.Brand>
+        )}
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse className="justify-content-end" id="basic-navbar-nav">
           {!isLogined ? (

@@ -8,6 +8,7 @@ import Logout from "./pages/Logout";
 import Profile from "./pages/Profile";
 import Cookies from "universal-cookie";
 import Home from "./pages/Home";
+import YourActivities from "./pages/YourActivities";
 function App() {
   const [isLogined, setIsLogined] = useState(false);
   useEffect(() => {
@@ -34,6 +35,9 @@ function App() {
         </Route>
         <Route path="/profile" exact>
           <Profile />
+        </Route>
+        <Route path="/yourActivities" exact>
+          <YourActivities />
         </Route>
       </div>
     </BrowserRouter>
