@@ -21,11 +21,11 @@ function YourActivities() {
   return (
     <>
       <Header />
-      <div className="h-100 d-flex justify-content-center align-items-center">
+      <div className="h-100 d-flex flex-column justify-content-center align-items-center">
         {activities.map((activity) => (
           <ActivityPreview key={activity._id} activity={activity} />
         ))}
-        {activities == 0 && (
+        {activities === 0 && (
           <div className="container">
             <div className="row py-5 mt-5 align-items-center">
               <div className="row">

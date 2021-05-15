@@ -14,3 +14,8 @@ code {
 #logo {
   color: "#d94d4c" !important;
 }
+
+.leaflet-container {
+  width: 100wh;
+  height: 50vh;
+}

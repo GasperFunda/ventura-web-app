@@ -4,6 +4,7 @@ function ActivityPreview(props) {
   const [distance, setDistance] = useState(0.0);
   const [distInKm, setDistInKm] = useState(false);
   const [iconPath, setIconPath] = useState("");
+  var formattedDate = new Date(props.activity.start_time);
   useEffect(() => {
     console.log(props);
     if (props.activity.distance >= 1000) {
@@ -25,14 +26,14 @@ function ActivityPreview(props) {
     <>
       <div className="card mt-5" style={{ width: "80%" }}>
         <div className="row no-gutters">
-          <div className="col-sm-2">
+          <div style={{ width: "175px" }}>
             <img
               className="card-img w-100"
-              src={"http://localhost:3001/" + iconPath}
-              alt="Suresh Dasari Card"
+              src={"http://localhost:3001" + iconPath}
+              alt="Activity type"
             />
           </div>
-          <div className="col-sm-7">
+          <div className="col-sm-6">
             <div className="card-body">
               <h5 className="card-title">{props.activity.title}</h5>
               {!distInKm ? (
@@ -54,6 +55,20 @@ function ActivityPreview(props) {
                 View details
               </a>
             </div>
+          </div>
+          <div className="col-sm-4 float-right">
+            <p>
+              Date recorded:{" "}
+              {formattedDate.getHours() +
+                ":" +
+                formattedDate.getMinutes() +
+                ", " +
+                formattedDate.getDate() +
+                "." +
+                formattedDate.getMonth() +
+                "." +
+                formattedDate.getFullYear()}
+            </p>
           </div>
         </div>
       </div>
