@@ -10,23 +10,30 @@ import {
   useMap,
   Polyline,
 } from "react-leaflet";
-
+import Cookies from "universal-cookie";
 function ActivityDetails() {
   const [activity, setActivity] = useState([]);
   const { id } = useParams();
   const [latitudes, setLatitudes] = useState([]);
   const [longtitudes, setLongtitudes] = useState([]);
+  const [elevation, setElevation] = useState([]);
+  const [elevationGain, setElevationGain] = useState(0);
   const [startLongtitude, setStartLongtitude] = useState(0);
   const [startLatitude, setStartLatitude] = useState(0);
+
   const [distance, setDistance] = useState(0);
   const [positions, setPositions] = useState([]);
   const [distInKm, setDistInKm] = useState(false);
   const [speed, setSpeed] = useState(0);
   const [error, setError] = useState("");
   const [pace, setPace] = useState(0);
+
   useEffect(() => {
+    var cookies = new Cookies();
     axios
-      .get("http://localhost:3001/activities/" + id)
+      .get("http://localhost:3001/activities/" + id, {
+        headers: { "x-auth-token": cookies.get("jwt") },
+      })
       .then((res) => {
         setActivity(res.data);
         if (res.data.distance >= 1000) {
@@ -35,8 +42,10 @@ function ActivityDetails() {
         } else setDistance(res.data.distance);
         setLatitudes(JSON.parse(res.data.latitude[0]));
         setLongtitudes(JSON.parse(res.data.longtitude[0]));
+        setElevation(JSON.parse(res.data.elevation[0]));
         var asd = JSON.parse(res.data.latitude[0]);
         var bsd = JSON.parse(res.data.longtitude[0]);
+        var ele = JSON.parse(res.data.elevation[0]);
         setStartLatitude(asd[0]);
         setStartLongtitude(bsd[0]);
         var pos = [];
@@ -45,7 +54,17 @@ function ActivityDetails() {
         }
         setPositions(pos);
         setPace(res.data.elapsed_time / 60 / (res.data.distance / 1000));
-        console.log(pace);
+        console.log("asd");
+        console.log(ele);
+        var gain = 0;
+        for (var i = 0; i < ele.length - 1; i++) {
+          if (ele[i] < ele[i + 1]) {
+            var diff = ele[i + 1] - ele[i];
+            console.log(diff);
+            gain += diff;
+          }
+        }
+        setElevationGain(gain);
       })
       .catch((res) => setError("Something went wrong..."));
   }, []);
@@ -97,7 +116,10 @@ function ActivityDetails() {
                 </h4>
               )}
               <h4 className="card-text">
-                Pace: {(Math.round(pace * 100) / 100).toFixed(2) + " min/km"}
+                Pace: {(Math.round(pace * 100) / 100).toFixed(2) + "min/km"}
+              </h4>
+              <h4 className="card-text">
+                Elevation gain: {elevationGain + "m"}
               </h4>
             </div>
           </div>

@@ -12,29 +12,33 @@ function Profile() {
   useEffect(() => {
     var cookies = new Cookies();
     var id = cookies.get("userId");
-    axios.get("http://localhost:3001/activities/profile/" + id).then((res) => {
-      console.log(res.data);
-      setFullname(
-        res.data[0].user.first_name + " " + res.data[0].user.last_name
-      );
-      var dist = 0;
-      var maxDist = 0;
-      for (var i = 0; i < res.data.length; i++) {
-        dist += res.data[i].distance;
-        if (maxDist < res.data[i].distance) maxDist = res.data[i].distance;
-      }
-      if (dist >= 1000) {
-        setTotalDistance(dist / 1000);
-        setTotalDistInKm(true);
-      } else setTotalDistance(dist);
+    axios
+      .get("http://localhost:3001/activities/profile/" + id, {
+        headers: { "x-auth-token": cookies.get("jwt") },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setFullname(
+          res.data[0].user.first_name + " " + res.data[0].user.last_name
+        );
+        var dist = 0;
+        var maxDist = 0;
+        for (var i = 0; i < res.data.length; i++) {
+          dist += res.data[i].distance;
+          if (maxDist < res.data[i].distance) maxDist = res.data[i].distance;
+        }
+        if (dist >= 1000) {
+          setTotalDistance(dist / 1000);
+          setTotalDistInKm(true);
+        } else setTotalDistance(dist);
 
-      if (maxDist >= 1000) {
-        setMaxDistance(maxDist / 1000);
-        setMaxDistInKm(true);
-      } else setMaxDistance(maxDist);
+        if (maxDist >= 1000) {
+          setMaxDistance(maxDist / 1000);
+          setMaxDistInKm(true);
+        } else setMaxDistance(maxDist);
 
-      setTotalActivites(res.data.length);
-    });
+        setTotalActivites(res.data.length);
+      });
   }, []);
   return (
     <>

@@ -12,6 +12,7 @@ function Logout() {
       const rez = response.json();
       cookies.remove("userId");
       cookies.remove("username");
+      cookies.remove("jwt");
       window.location = "/";
     });
   }, []);

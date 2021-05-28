@@ -19,8 +19,10 @@ function Login() {
         })
         .then((res) => {
           const cookies = new Cookies();
-          cookies.set("userId", res.data._id);
-          cookies.set("email", res.data.email);
+          console.log(res.data);
+          cookies.set("userId", res.data._doc._id);
+          cookies.set("email", res.data._doc.email);
+          cookies.set("jwt", res.data.jwt);
           console.log(cookies.get("userId"));
           window.location = "/";
         })

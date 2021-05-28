@@ -11,7 +11,9 @@ function YourActivities() {
   useEffect(() => {
     const id = cookies.get("userId");
     axios
-      .get("http://localhost:3001/activities/user/" + id)
+      .get("http://localhost:3001/activities/user/" + id, {
+        headers: { "x-auth-token": cookies.get("jwt") },
+      })
       .then((response) => {
         console.log(response.data);
         setActivities(response.data);
