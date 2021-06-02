@@ -31,7 +31,7 @@ function ActivityDetails() {
   useEffect(() => {
     var cookies = new Cookies();
     axios
-      .get("http://localhost:3001/activities/" + id, {
+      .get("https://ventura-project.herokuapp.com/activities/" + id, {
         headers: { "x-auth-token": cookies.get("jwt") },
       })
       .then((res) => {

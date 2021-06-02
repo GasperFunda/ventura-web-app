@@ -29,7 +29,7 @@ function ActivityPreview(props) {
           <div style={{ width: "175px" }}>
             <img
               className="card-img w-100"
-              src={"http://localhost:3001" + iconPath}
+              src={"https://ventura-project.herokuapp.com" + iconPath}
               alt="Activity type"
             />
           </div>

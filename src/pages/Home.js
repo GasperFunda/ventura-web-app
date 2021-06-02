@@ -9,7 +9,7 @@ function Home() {
         <div className="row py-5 mt-5 align-items-center">
           <div className="col-md-5 pr-lg-5 mb-5 mb-md-0">
             <img
-              src="http://localhost:3001/images/phone.jpg"
+              src="https://ventura-project.herokuapp.com/images/phone.jpg"
               alt="logo"
               className="img-fluid mb-3 d-none d-md-block w-50"
             />

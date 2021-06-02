@@ -11,7 +11,7 @@ function YourActivities() {
   useEffect(() => {
     const id = cookies.get("userId");
     axios
-      .get("http://localhost:3001/activities/user/" + id, {
+      .get("https://ventura-project.herokuapp.com/activities/user/" + id, {
         headers: { "x-auth-token": cookies.get("jwt") },
       })
       .then((response) => {
@@ -33,7 +33,7 @@ function YourActivities() {
               <div className="row">
                 <div className="col-md-5 pr-lg-5 mb-5 mb-md-0">
                   <img
-                    src="http://localhost:3001/images/logo.png"
+                    src="https://ventura-project.herokuapp.com/images/logo.png"
                     alt="logo"
                     className="img-fluid mb-3 d-none d-md-block"
                   />

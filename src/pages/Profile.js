@@ -13,7 +13,7 @@ function Profile() {
     var cookies = new Cookies();
     var id = cookies.get("userId");
     axios
-      .get("http://localhost:3001/activities/profile/" + id, {
+      .get("https://ventura-project.herokuapp.com/activities/profile/" + id, {
         headers: { "x-auth-token": cookies.get("jwt") },
       })
       .then((res) => {
@@ -47,7 +47,7 @@ function Profile() {
         <div className="row py-5 mt-5 align-items-center">
           <div className="col-md-5 pr-lg-5 mb-5 mb-md-0 d-flex flex-column align-items-center">
             <img
-              src="http://localhost:3001/images/profile.png"
+              src="https://ventura-project.herokuapp.com/images/profile.png"
               alt="logo"
               className="img-fluid mb-3 d-none d-md-block w-50"
             />

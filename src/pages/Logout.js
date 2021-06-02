@@ -3,7 +3,7 @@ import Cookies from "universal-cookie";
 function Logout() {
   useEffect(() => {
     var cookies = new Cookies();
-    fetch("http://localhost:3001/users/logout", {
+    fetch("https://ventura-project.herokuapp.com/users/logout", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

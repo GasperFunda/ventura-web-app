@@ -28,7 +28,10 @@ function Register() {
           };
           console.log(formData);
           axios
-            .post("http://localhost:3001/users/register", formData)
+            .post(
+              "https://ventura-project.herokuapp.com/users/register",
+              formData
+            )
             .then((response) => {
               console.log(response);
               alert("Succesfully registered!");
@@ -56,7 +59,7 @@ function Register() {
         <div className="row py-5 mt-4 align-items-center">
           <div className="col-md-5 pr-lg-5 mb-5 mb-md-0">
             <img
-              src="http://localhost:3001/images/logo.png"
+              src="https://ventura-project.herokuapp.com/images/logo.png"
               alt="logo"
               className="img-fluid mb-3 d-none d-md-block"
             />
