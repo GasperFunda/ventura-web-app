@@ -9,8 +9,12 @@ import {
   Popup,
   useMap,
   Polyline,
+  CircleMarker,
 } from "react-leaflet";
+import L from "leaflet";
 import Cookies from "universal-cookie";
+import bicyleImage from "../images/bicycle.png";
+import stopImage from "../images/stop.png";
 function ActivityDetails() {
   const [activity, setActivity] = useState([]);
   const { id } = useParams();
@@ -20,14 +24,35 @@ function ActivityDetails() {
   const [elevationGain, setElevationGain] = useState(0);
   const [startLongtitude, setStartLongtitude] = useState(0);
   const [startLatitude, setStartLatitude] = useState(0);
-
   const [distance, setDistance] = useState(0);
   const [positions, setPositions] = useState([]);
   const [distInKm, setDistInKm] = useState(false);
   const [speed, setSpeed] = useState(0);
   const [error, setError] = useState("");
   const [pace, setPace] = useState(0);
-
+  const [trafficSigns, setTrafficSigns] = useState([]);
+  const bicycleSign = new L.Icon({
+    iconUrl: bicyleImage,
+    iconRetinaUrl: bicyleImage,
+    iconAnchor: new L.Point(0, 0),
+    popupAnchor: new L.Point(16, 0),
+    shadowUrl: null,
+    shadowSize: null,
+    shadowAnchor: null,
+    iconSize: new L.Point(24, 24),
+    className: "leaflet-div-icon",
+  });
+  const stopSign = new L.Icon({
+    iconUrl: stopImage,
+    iconRetinaUrl: stopImage,
+    iconAnchor: new L.Point(0, 0),
+    popupAnchor: new L.Point(16, 0),
+    shadowUrl: null,
+    shadowSize: null,
+    shadowAnchor: null,
+    iconSize: new L.Point(24, 24),
+    className: "leaflet-div-icon",
+  });
   useEffect(() => {
     var cookies = new Cookies();
     axios
@@ -67,11 +92,29 @@ function ActivityDetails() {
         setElevationGain(gain);
       })
       .catch((res) => setError("Something went wrong..."));
+    axios
+      .get("https://ventura-project.herokuapp.com/trafficSigns")
+      .then((res) => {
+        setTrafficSigns(res.data);
+        console.log(res.data);
+      })
+      .catch((res) => console.log(res));
   }, []);
 
   function MapComponent() {
     const map = useMap();
     map.setView({ lat: startLatitude, lng: startLongtitude, zoom: 17 });
+    trafficSigns.forEach(function (sign) {
+      if (sign.type == "Bicycle") {
+        L.marker([sign.latitude, sign.longtitude], { icon: bicycleSign }).addTo(
+          map
+        );
+      } else if (sign.type == "Stop") {
+        L.marker([sign.latitude, sign.longtitude], { icon: stopSign }).addTo(
+          map
+        );
+      }
+    });
     return null;
   }
 

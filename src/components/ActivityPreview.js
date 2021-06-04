@@ -8,7 +8,7 @@ function ActivityPreview(props) {
   useEffect(() => {
     console.log(props);
     if (props.activity.distance >= 1000) {
-      setDistance(props.distance / 1000);
+      setDistance(props.activity.distance / 1000);
       setDistInKm(true);
     } else setDistance(props.activity.distance);
 
