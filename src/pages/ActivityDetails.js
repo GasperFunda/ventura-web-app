@@ -13,8 +13,7 @@ import {
 } from "react-leaflet";
 import L from "leaflet";
 import Cookies from "universal-cookie";
-import bicyleImage from "../images/bicycle.png";
-import stopImage from "../images/stop.png";
+import * as SignIcons from "../components/trafficSignIcons";
 function ActivityDetails() {
   const [activity, setActivity] = useState([]);
   const { id } = useParams();
@@ -31,28 +30,7 @@ function ActivityDetails() {
   const [error, setError] = useState("");
   const [pace, setPace] = useState(0);
   const [trafficSigns, setTrafficSigns] = useState([]);
-  const bicycleSign = new L.Icon({
-    iconUrl: bicyleImage,
-    iconRetinaUrl: bicyleImage,
-    iconAnchor: new L.Point(0, 0),
-    popupAnchor: new L.Point(16, 0),
-    shadowUrl: null,
-    shadowSize: null,
-    shadowAnchor: null,
-    iconSize: new L.Point(24, 24),
-    className: "leaflet-div-icon",
-  });
-  const stopSign = new L.Icon({
-    iconUrl: stopImage,
-    iconRetinaUrl: stopImage,
-    iconAnchor: new L.Point(0, 0),
-    popupAnchor: new L.Point(16, 0),
-    shadowUrl: null,
-    shadowSize: null,
-    shadowAnchor: null,
-    iconSize: new L.Point(24, 24),
-    className: "leaflet-div-icon",
-  });
+
   useEffect(() => {
     var cookies = new Cookies();
     axios
@@ -105,14 +83,219 @@ function ActivityDetails() {
     const map = useMap();
     map.setView({ lat: startLatitude, lng: startLongtitude, zoom: 17 });
     trafficSigns.forEach(function (sign) {
-      if (sign.type == "Bicycle") {
-        L.marker([sign.latitude, sign.longtitude], { icon: bicycleSign }).addTo(
-          map
-        );
-      } else if (sign.type == "Stop") {
-        L.marker([sign.latitude, sign.longtitude], { icon: stopSign }).addTo(
-          map
-        );
+      switch (sign.type) {
+        case "Bicycle":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.bicycleSign,
+          }).addTo(map);
+          break;
+        case "Stop":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.stopSign,
+          }).addTo(map);
+          break;
+        case "Speed limit - 20":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.speedlimit20Sign,
+          }).addTo(map);
+          break;
+        case "Speed limit - 30":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.speedlimit30Sign,
+          }).addTo(map);
+          break;
+        case "Speed limit - 50":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.speedlimit50Sign,
+          }).addTo(map);
+          break;
+        case "Speed limit - 60":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.speedlimit60Sign,
+          }).addTo(map);
+          break;
+        case "Speed limit - 70":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.speedlimit70Sign,
+          }).addTo(map);
+          break;
+        case "Speed limit - 80":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.speedlimit80Sign,
+          }).addTo(map);
+          break;
+        case "Speed limit - 100":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.speedlimit100Sign,
+          }).addTo(map);
+          break;
+        case "Speed limit - 120":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.speedlimit120Sign,
+          }).addTo(map);
+          break;
+        case "No overtaking":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.noOvertakingSign,
+          }).addTo(map);
+          break;
+        case "Crossroad":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.crossroadSign,
+          }).addTo(map);
+          break;
+        case "Priority road":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.priorityRoadSign,
+          }).addTo(map);
+          break;
+        case "Non priority road":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.nonPriorityRoadSign,
+          }).addTo(map);
+          break;
+        case "Forbidden traffic":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.forbiddenTrafficSign,
+          }).addTo(map);
+          break;
+        case "Forbidden for trucks":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.forbiddenForTrucksSign,
+          }).addTo(map);
+          break;
+        case "Forbidden direction":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.forbiddenDirectionSign,
+          }).addTo(map);
+          break;
+        case "Danger":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.dangerSign,
+          }).addTo(map);
+          break;
+        case "Turn left":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.turnLeftSign,
+          }).addTo(map);
+          break;
+        case "Turn right":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.turnRightSign,
+          }).addTo(map);
+          break;
+        case "Wiggly road":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.wigglyRoadSign,
+          }).addTo(map);
+          break;
+        case "Speedbumps":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.speedbumpsSign,
+          }).addTo(map);
+          break;
+        case "Slippery road":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.slipperyRoadSign,
+          }).addTo(map);
+          break;
+        case "Road narrowing":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.roadNarrowingSign,
+          }).addTo(map);
+          break;
+        case "Work on the road":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.workOnTheRoadSign,
+          }).addTo(map);
+          break;
+        case "Semaphore":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.semaphoreSign,
+          }).addTo(map);
+          break;
+        case "Pedestrian warning":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.pedestrianWarningSign,
+          }).addTo(map);
+          break;
+        case "Kids warning":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.kidsWarningSign,
+          }).addTo(map);
+          break;
+        case "Bicycle warning":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.bicycleSign,
+          }).addTo(map);
+          break;
+        case "Snow warning":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.snowWarningSign,
+          }).addTo(map);
+          break;
+        case "Animal warning":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.animalWarningSign,
+          }).addTo(map);
+          break;
+        case "No speed limit":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.noSpeedLimitSign,
+          }).addTo(map);
+          break;
+        case "Must turn right":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.mustTurnRightSign,
+          }).addTo(map);
+          break;
+        case "Must turn left":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.mustTurnLeftSign,
+          }).addTo(map);
+          break;
+        case "Must go straight":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.mustGoStraightSign,
+          }).addTo(map);
+          break;
+        case "Must go straight or right":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.mustGoStraightOrRightSign,
+          }).addTo(map);
+          break;
+        case "Must go straight or left":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.mustGoStraightOrLeftSign,
+          }).addTo(map);
+          break;
+        case "Must drive here right":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.driveHereRightSign,
+          }).addTo(map);
+          break;
+        case "Must drive here left":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.driveHereLeftSign,
+          }).addTo(map);
+          break;
+        case "Roundabout":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.roundaboutSign,
+          }).addTo(map);
+          break;
+        case "Overtaking allowed":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.overtakingAllowedSign,
+          }).addTo(map);
+          break;
+        case "Truck overtaking allowed":
+          L.marker([sign.latitude, sign.longtitude], {
+            icon: SignIcons.truckOvertakingAllowedSign,
+          }).addTo(map);
+          break;
+        default:
+          break;
       }
     });
     return null;
