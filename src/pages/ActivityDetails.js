@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import { useParams } from "react-router";
+import { Line } from "react-chartjs-2";
 import {
   MapContainer,
   TileLayer,
@@ -30,7 +31,8 @@ function ActivityDetails() {
   const [error, setError] = useState("");
   const [pace, setPace] = useState(0);
   const [trafficSigns, setTrafficSigns] = useState([]);
-
+  const [speedChartData, setSpeedChartData] = useState([]);
+  const [elevationChartData, setElevationChartData] = useState([]);
   useEffect(() => {
     var cookies = new Cookies();
     axios
@@ -46,6 +48,8 @@ function ActivityDetails() {
         setLatitudes(JSON.parse(res.data.latitude[0]));
         setLongtitudes(JSON.parse(res.data.longtitude[0]));
         setElevation(JSON.parse(res.data.elevation[0]));
+        setSpeed(JSON.parse(res.data.speed[0]));
+        var spd = JSON.parse(res.data.speed[0]);
         var asd = JSON.parse(res.data.latitude[0]);
         var bsd = JSON.parse(res.data.longtitude[0]);
         var ele = JSON.parse(res.data.elevation[0]);
@@ -68,6 +72,42 @@ function ActivityDetails() {
           }
         }
         setElevationGain(gain);
+        var labels = [];
+        for (let i = 0; i < spd.length; i++) {
+          labels.push("");
+        }
+
+        spd = spd.map((x) => x * 3.6);
+        const dataSpeed = {
+          labels: labels,
+          datasets: [
+            {
+              label: "Speed",
+              fill: false,
+              lineTension: 0.5,
+              backgroundColor: "rgba(192,75,75,1)",
+              borderColor: "rgba(0,0,0,1)",
+              borderWidth: 2,
+              data: spd,
+            },
+          ],
+        };
+        const dataElevation = {
+          labels: labels,
+          datasets: [
+            {
+              label: "Elevation change",
+              fill: false,
+              lineTension: 0.5,
+              backgroundColor: "rgba(75,192,75,1)",
+              borderColor: "rgba(0,0,0,1)",
+              borderWidth: 2,
+              data: ele,
+            },
+          ],
+        };
+        setElevationChartData(dataElevation);
+        setSpeedChartData(dataSpeed);
       })
       .catch((res) => setError("Something went wrong..."));
     axios
@@ -328,26 +368,56 @@ function ActivityDetails() {
             </MapContainer>
           </div>
           <div className="col-md-7 col-lg-6 ml-auto mt-4">
-            <div className="row">
-              <h1>{activity.title}</h1>
-              {!distInKm ? (
-                <h4 className="card-text">
-                  Distance:{" "}
-                  {(Math.round(distance * 100) / 100).toFixed(2) + "m"}
-                </h4>
-              ) : (
-                <h4 className="card-text">
-                  Distance:{" "}
-                  {(Math.round(distance * 100) / 100).toFixed(2) + "km"}
-                </h4>
-              )}
+            <h1>{activity.title}</h1>
+            {!distInKm ? (
               <h4 className="card-text">
-                Pace: {(Math.round(pace * 100) / 100).toFixed(2) + "min/km"}
+                Distance: {(Math.round(distance * 100) / 100).toFixed(2) + "m"}
               </h4>
+            ) : (
               <h4 className="card-text">
-                Elevation gain: {elevationGain + "m"}
+                Distance: {(Math.round(distance * 100) / 100).toFixed(2) + "km"}
               </h4>
-            </div>
+            )}
+            <h4 className="card-text">
+              Pace: {(Math.round(pace * 100) / 100).toFixed(2) + "min/km"}
+            </h4>
+            <h4 className="card-text">Elevation gain: {elevationGain + "m"}</h4>
+          </div>
+        </div>
+        <div className="row py-5 mt-5 d-flex flex-row">
+          <div className="col-md-6 pr-lg-5 mb-5 mb-md-0">
+            <h3>Your speed throughout the workout (km/h)</h3>
+            <Line
+              data={speedChartData}
+              options={{
+                title: {
+                  display: true,
+                  text: "Your speed throughout the workout",
+                  fontSize: 20,
+                },
+                legend: {
+                  display: true,
+                  position: "bottom",
+                },
+              }}
+            />
+          </div>
+          <div className="col-md-6 ml-auto mt-4">
+            <h3>Your elevation change throughout the workout</h3>
+            <Line
+              data={elevationChartData}
+              options={{
+                title: {
+                  display: true,
+                  text: "Your elevation change throughout the workout",
+                  fontSize: 20,
+                },
+                legend: {
+                  display: true,
+                  position: "bottom",
+                },
+              }}
+            />
           </div>
         </div>
       </div>
