@@ -89,6 +89,7 @@ function ActivityDetails() {
               borderColor: "rgba(0,0,0,1)",
               borderWidth: 2,
               data: spd,
+              pointRadius: 0,
             },
           ],
         };
@@ -103,6 +104,7 @@ function ActivityDetails() {
               borderColor: "rgba(0,0,0,1)",
               borderWidth: 2,
               data: ele,
+              pointRadius: 0,
             },
           ],
         };
