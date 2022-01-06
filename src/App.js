@@ -10,6 +10,7 @@ import Cookies from "universal-cookie";
 import Home from "./pages/Home";
 import YourActivities from "./pages/YourActivities";
 import ActivityDetails from "./pages/ActivityDetails";
+import CompassPage from "./pages/CompassPage";
 function App() {
   const [isLogined, setIsLogined] = useState(false);
   useEffect(() => {
@@ -39,6 +40,9 @@ function App() {
         </Route>
         <Route path="/yourActivities" exact>
           <YourActivities />
+        </Route>
+        <Route path="/compass" exact>
+          <CompassPage />
         </Route>
         <Route path="/activities/:id">
           <ActivityDetails />

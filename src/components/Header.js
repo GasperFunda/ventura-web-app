@@ -45,6 +45,9 @@ function Header(props) {
             </Nav>
           ) : (
             <Nav className="mr-auto">
+              <Nav.Link href="/compass" style={{ fontSize: "24px" }}>
+                Compass
+              </Nav.Link>
               <Nav.Link href="/profile" style={{ fontSize: "24px" }}>
                 Profile
               </Nav.Link>
