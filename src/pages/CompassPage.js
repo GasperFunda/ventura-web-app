@@ -13,7 +13,7 @@ function CompassPage() {
           setDegrees(res.data.yaw);
         }
       });
-    }, 250);
+    }, 125);
     return () => clearInterval(intervalId);
   }, []);
   return (
