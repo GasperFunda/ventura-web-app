@@ -40,11 +40,11 @@ function ActivityDetails() {
         headers: { "x-auth-token": cookies.get("jwt") },
       })
       .then((res) => {
-        setActivity(res.data);
         if (res.data.distance >= 1000) {
           setDistance(res.data.distance / 1000);
           setDistInKm(true);
         } else setDistance(res.data.distance);
+        console.log(res.data);
         setLatitudes(JSON.parse(res.data.latitude[0]));
         setLongtitudes(JSON.parse(res.data.longtitude[0]));
         setElevation(JSON.parse(res.data.elevation[0]));
@@ -383,7 +383,10 @@ function ActivityDetails() {
             <h4 className="card-text">
               Pace: {(Math.round(pace * 100) / 100).toFixed(2) + "min/km"}
             </h4>
-            <h4 className="card-text">Elevation gain: {elevationGain + "m"}</h4>
+            <h4 className="card-text">
+              Elevation gain:{" "}
+              {(Math.round(elevationGain * 100) / 100).toFixed(2) + "m"}
+            </h4>
           </div>
         </div>
         <div className="row py-5 mt-5 d-flex flex-row">
